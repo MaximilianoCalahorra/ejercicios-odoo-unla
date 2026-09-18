@@ -1,0 +1,21 @@
+# Datos y volúmenes locales de Docker/Doodba
+.env.local
+data/
+filestore/
+sessions/
+*.log
+
+# Python / Entorno
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Archivos del sistema
+.DS_Store
+
+# IDEs y Editores de código
+.idea/
+.vscode/
+*.code-workspace
