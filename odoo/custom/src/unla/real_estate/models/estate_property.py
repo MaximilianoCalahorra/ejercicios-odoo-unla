@@ -12,7 +12,7 @@ class EstateProperty(models.Model):
     selling_price = fields.Float(string="Precio de venta")
     bedrooms = fields.Integer(string="Habitaciones", default=2)
     living_area = fields.Integer(string="Superficie cubierta")
-    facades = fields.Integer(string="fachadas")
+    facades = fields.Integer(string="Fachadas")
     garage = fields.Boolean(string="Garage")
     garden = fields.Boolean(string="Jardín")
     garden_orientation = fields.Selection(selection=[('north','Norte'),('south','Sur'),('east','Este'),('west','Oeste')], default="north", string="Orientación del jardín")

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="category_real_estate" model="ir.module.category">
+            <field name="name">Inmobiliaria</field>
+            <field name="description">Gestión del módulo Inmobiliaria</field>
+        </record>
+        
+        <record id="group_real_estate_seller" model="res.groups">
+            <field name="name">Vendedor de Propiedades</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Lectura de propiedades inmobiliarias.</field>
+        </record>
+        
+        <record id="group_real_estate_manager" model="res.groups">
+            <field name="name">Manager de Propiedades</field>
+            <field name="implied_ids" eval="[(4, ref('real_estate.group_real_estate_seller'))]"/>
+            <field name="comment">Acceso total para administrar propiedades inmobiliarias.</field>	
+        </record>
+    </data>
+</odoo>
