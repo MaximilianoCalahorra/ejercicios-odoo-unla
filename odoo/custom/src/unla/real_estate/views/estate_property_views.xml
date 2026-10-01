@@ -1,11 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_estate_property_search" model="ir.ui.view">
+        <field name="name">estate.property.search</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Propiedades">
+                <!-- a. Buscar por name, postcode, expected_price, bedrooms, living_area y facades -->
+                <field name="name" string="Título"/>
+                <field name="postcode"/>
+                <field name="expected_price"/>
+                <field name="bedrooms"/>
+                <field name="living_area"/>
+                <field name="facades"/>
+
+                <!-- b. Filtrar por el usuario con la sesión activa -->
+                <filter string="Mis propiedades" name="my_properties" domain="[('create_uid', '=', uid)]"/>
+
+                <separator/>
+
+                <!-- Agrupaciones -->
+                <group expand="0" string="Agrupar por">
+                    <!-- c. Agrupar por usuario creador -->
+                    <filter string="Creado por" name="group_by_user" context="{'group_by': 'create_uid'}"/>
+                    
+                    <!-- d. Agrupar por mes de creación -->
+                    <filter string="Mes de creación" name="group_by_month" context="{'group_by': 'create_date:month'}"/>
+                    
+                    <!-- e. Agrupar por código postal -->
+                    <filter string="Código postal" name="group_by_postcode" context="{'group_by': 'postcode'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="estate_property_action" model="ir.actions.act_window">
         <field name="name">Propiedades</field>
         <field name="res_model">estate.property</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_estate_property_search"/>
     </record>
 
-    <menuitem id="menu_real_estate_root" name="Inmobiliaria" groups="base.group_user"/>
-    <menuitem id="menu_estate_property_action" name="Propiedades" parent="menu_real_estate_root" action="estate_property_action" groups="base.group_user"/>
 </odoo>
