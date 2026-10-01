@@ -21,3 +21,4 @@ class EstateProperty(models.Model):
     garden = fields.Boolean(string="Jardín")
     garden_orientation = fields.Selection(selection=[('north','Norte'),('south','Sur'),('east','Este'),('west','Oeste')], default="north", string="Orientación del jardín")
     garden_area = fields.Integer(string="Superficie jardín")
+    state= fields.Selection(selection=[('Nuevo','Nuevo'),('Oferta recibida','Oferta recibida'),('Oferta aceptada','Oferta aceptada'),('Vendido','Vendido'),('Cancelado','Cancelado')], string="Estado", default="Nuevo", copy=False, required=True)
