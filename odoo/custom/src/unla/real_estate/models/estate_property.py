@@ -47,3 +47,9 @@ class EstateProperty(models.Model):
         comodel_name="estate.property.tag",
         string="Etiquetas"
     )
+    
+    offer_ids = fields.One2many(
+        comodel_name="estate_property_offer",
+        inverse_name="property_id",
+        string="Ofertas"
+    )
