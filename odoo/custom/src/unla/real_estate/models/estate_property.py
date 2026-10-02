@@ -8,6 +8,7 @@ class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Propiedad"
     
+    # Atributos:
     name = fields.Char(string="Título", required=True)
     description = fields.Text(string="Descripción")
     postcode = fields.Char(string="Código postal")
@@ -22,3 +23,22 @@ class EstateProperty(models.Model):
     garden_orientation = fields.Selection(selection=[('north','Norte'),('south','Sur'),('east','Este'),('west','Oeste')], default="north", string="Orientación del jardín")
     garden_area = fields.Integer(string="Superficie jardín")
     state= fields.Selection(selection=[('new','Nuevo'),('offer_received','Oferta recibida'),('offer_accepted','Oferta aceptada'),('sold','Vendido'),('canceled','Cancelado')], string="Estado", default="new", copy=False, required=True)
+
+    # Relaciones:
+    property_type_id = fields.Many2one(
+        comodel_name="estate.property.type",
+        string="Tipo propiedad",
+        required=True
+    )
+    
+    buyer_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Comprador"
+    )
+    
+    salesman_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Vendedor",
+        copy=False,
+        default=lambda self: self.env.user
+    )
