@@ -43,7 +43,7 @@ class EstateProperty(models.Model):
         default=lambda self: self.env.user
     )
     
-    tags_ids = fields.Many2many(
+    tag_ids = fields.Many2many(
         comodel_name="estate.property.tag",
         string="Etiquetas"
     )

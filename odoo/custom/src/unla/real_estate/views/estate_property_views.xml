@@ -49,6 +49,7 @@
         <field name="arch" type="xml">
             <list string="Lista de propiedades">
                 <field name="name"/>
+                <field name="tag_ids" widget="many2many_tags" />
                 <field name="postcode"/>
                 <field name="expected_price"/>
                 <field name="bedrooms"/>
@@ -73,8 +74,13 @@
                 <sheet>
                     <group>
                         <h1>
-                            <field name="name" placeholder="Nombre propiedad"></field>
+                            <field name="name" placeholder="Nombre propiedad" />
                         </h1>
+                    </group>
+                    <group>
+                        <h3>
+                            <field name="tag_ids" placeholder="Etiquetas de propiedad" widget="many2many_tags" />
+                        </h3>
                     </group>
                     <group>
                         <group>
