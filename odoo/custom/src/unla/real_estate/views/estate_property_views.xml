@@ -26,14 +26,17 @@
 
                 <!-- Agrupaciones -->
                 <group>
-                    <!-- c. Agrupar por usuario creador -->
+                    <!-- Agrupar por usuario creador -->
                     <filter string="Creado por" name="group_by_user" context="{'group_by': 'create_uid'}"/>
 
-                    <!-- d. Agrupar por mes de creación -->
+                    <!-- Agrupar por mes de creación -->
                     <filter string="Mes de creación" name="group_by_month" context="{'group_by': 'create_date'}"/>
 
-                    <!-- e. Agrupar por código postal -->
+                    <!-- Agrupar por código postal -->
                     <filter string="Código postal" name="group_by_postcode" context="{'group_by': 'postcode'}"/>
+
+                    <!-- Agrupar por propiedades disponibles -->
+                    <filter string="Estado" name="filter_available_properties" domain="[('state','in',['new','offer received'])]" />
                 </group>
             </search>
         </field>
