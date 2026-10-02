@@ -10,4 +10,5 @@
     <!-- Submenú de tipos de propiedad -->
     <menuitem id="menu_real_estate_settings" name="Ajustes" parent="menu_real_estate_root" />
     <menuitem id="menu_estate_property_type_action" name="Tipos de propiedades" parent="menu_real_estate_settings" action="estate_property_type_action" /> 
+    <menuitem id="menu_estate_property_tag_action" name="Etiquetas de propiedad" parent="menu_real_estate_settings" action="estate_property_tag_action" />
 </odoo>
