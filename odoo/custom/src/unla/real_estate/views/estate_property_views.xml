@@ -78,6 +78,7 @@
                     </group>
                     <group>
                         <group>
+                            <field name="property_type_id" placeholder="Tipo de propiedad" />
                             <field name="postcode" />
                             <field name="date_availability" />
                         </group>
@@ -102,6 +103,13 @@
                                     <field name="garden_area" />
                                     <field name="garden_orientation" />
                                 </group>
+                            </group>
+                        </page>
+
+                        <page string="Más info">
+                            <group>
+                                <field name="buyer_id" />
+                                <field name="salesman_id" />
                             </group>
                         </page>
                     </notebook>
