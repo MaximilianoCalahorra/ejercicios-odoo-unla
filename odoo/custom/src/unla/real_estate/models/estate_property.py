@@ -56,9 +56,20 @@ class EstateProperty(models.Model):
     
     # Campos computados:
     total_area = fields.Integer(string="Superficie total", compute="_compute_total_area", store=True)
+    best_offer = fields.Float(string="Mejor oferta", compute="_compute_best_offer", store=True)
     
     # Funciones para campos computados:
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for rec in self:
             rec.total_area = rec.living_area + rec.garden_area
+
+    @api.depends("offer_ids.price")
+    def _compute_best_offer(self):
+        for rec in self:
+            offers = rec.offer_ids.mapped("price")
+            
+            if offers:
+                rec.best_offer = max(offers)
+            else:
+                rec.best_offer = 0
