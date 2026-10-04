@@ -55,7 +55,7 @@ class EstateProperty(models.Model):
     )
     
     # Campos computados:
-    total_area = fields.Integer(string="Superficie total", compute="_compute_total_area")
+    total_area = fields.Integer(string="Superficie total", compute="_compute_total_area", store=True)
     
     # Funciones para campos computados:
     @api.depends("living_area", "garden_area")
