@@ -7,8 +7,12 @@
     <menuitem id="menu_real_estate_advertisements" name="Anuncios" parent="menu_real_estate_root"/>
     <menuitem id="menu_estate_property_action" name="Propiedades" parent="menu_real_estate_advertisements" action="estate_property_action"/>
 
-    <!-- Submenú de tipos de propiedad -->
+    <!-- Submenú de ajustes -->
     <menuitem id="menu_real_estate_settings" name="Ajustes" parent="menu_real_estate_root" />
     <menuitem id="menu_estate_property_type_action" name="Tipos de propiedades" parent="menu_real_estate_settings" action="estate_property_type_action" /> 
     <menuitem id="menu_estate_property_tag_action" name="Etiquetas de propiedad" parent="menu_real_estate_settings" action="estate_property_tag_action" />
+
+    <!-- Submenú de ofertas -->
+    <menuitem id="menu_real_estate_offers" name="Ofertas" parent="menu_real_estate_root" />
+    <menuitem id="menu_real_estate_offers_action" action="estate_property_offer_action" parent="menu_real_estate_offers" />
 </odoo>
