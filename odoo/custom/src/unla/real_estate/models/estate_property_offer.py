@@ -40,3 +40,6 @@ class EstatePropertyOffer(models.Model):
             if rec.date_deadline and rec.create_date:
                 delta = rec.date_deadline - rec.create_date.date()
                 rec.validity = delta.days
+    
+    # Campos relacionados:
+    property_type = fields.Char(related="property_id.property_type_id.name", store=True)
