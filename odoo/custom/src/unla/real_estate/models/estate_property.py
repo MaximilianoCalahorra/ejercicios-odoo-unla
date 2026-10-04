@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
 
 def _default_date_availability(self):
@@ -53,3 +53,12 @@ class EstateProperty(models.Model):
         inverse_name="property_id",
         string="Ofertas"
     )
+    
+    # Campos computados:
+    total_area = fields.Integer(string="Superficie total", compute="_compute_total_area")
+    
+    # Funciones para campos computados:
+    @api.depends("living_area", "garden_area")
+    def _compute_total_area(self):
+        for rec in self:
+            rec.total_area = rec.living_area + rec.garden_area
