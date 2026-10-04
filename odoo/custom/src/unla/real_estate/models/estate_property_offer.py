@@ -7,6 +7,8 @@ class EstatePropertyOffer(models.Model):
     # Atributos:
     price = fields.Float(string="Precio", required=True)
     status = fields.Selection(string="Estado", selection=[("accepted","Aceptada"),("refused","Rechazada")])
+    validity = fields.Integer(string="Validez (días)", default=7)
+    date_deadline = fields.Date(string="Fecha límite")
     
     # Relaciones:
     partner_id = fields.Many2one(
