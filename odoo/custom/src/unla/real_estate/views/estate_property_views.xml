@@ -68,6 +68,20 @@
         <field name="arch" type="xml">
             <form string="Formulario para propiedades">
                 <header>
+                    <button 
+                        name="action_mark_as_sold"
+                        type="object"
+                        string="Marcar como vendida"
+                        class="btn-primary"
+                        invisible="state in ['sold', 'canceled']"
+                    />
+                    <button 
+                        name="action_cancel"
+                        type="object"
+                        string="Cancelar"
+                        class="btn-secondary"
+                        invisible="state in ['sold', 'canceled']"
+                    />
                     <field name="state" widget="statusbar"></field>
                 </header>
 

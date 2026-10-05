@@ -93,3 +93,18 @@ class EstateProperty(models.Model):
                     "type": "notification",
                 }
             }
+
+    # Acciones:
+    def action_mark_as_sold(self):
+        for rec in self:
+            if rec.state == "canceled":
+                raise UserError("No se puede marcar como vendida una propiedad cancelada.")
+            rec.state = "sold"
+        return True
+    
+    def action_cancel(self):
+        for rec in self:
+            if rec.state == "sold":
+                raise UserError("No se puede cancelar una propiedad vendida.")
+            rec.state = "canceled"
+        return True
