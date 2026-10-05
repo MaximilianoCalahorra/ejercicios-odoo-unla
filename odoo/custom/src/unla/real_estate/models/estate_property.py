@@ -19,7 +19,7 @@ class EstateProperty(models.Model):
     living_area = fields.Integer(string="Superficie cubierta")
     facades = fields.Integer(string="Fachadas")
     garage = fields.Boolean(string="Garage")
-    garden = fields.Boolean(string="Jardín")
+    garden = fields.Boolean(string="Jardín", onchange="_on_change_garden")
     garden_orientation = fields.Selection(selection=[('north','Norte'),('south','Sur'),('east','Este'),('west','Oeste')], default="north", string="Orientación del jardín")
     garden_area = fields.Integer(string="Superficie jardín")
     state= fields.Selection(selection=[('new','Nuevo'),('offer_received','Oferta recibida'),('offer_accepted','Oferta aceptada'),('sold','Vendido'),('canceled','Cancelado')], string="Estado", default="new", copy=False, required=True)
@@ -73,3 +73,11 @@ class EstateProperty(models.Model):
                 rec.best_offer = max(offers)
             else:
                 rec.best_offer = 0
+    
+    # Funciones onchange:
+    @api.onchange("garden")
+    def _on_change_garden(self):
+        if self.garden:
+            self.garden_area = 10
+        else:
+            self.garden_area = 0
