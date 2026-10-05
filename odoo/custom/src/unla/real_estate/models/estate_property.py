@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
 
 def _default_date_availability(self):
@@ -13,7 +14,7 @@ class EstateProperty(models.Model):
     description = fields.Text(string="Descripción")
     postcode = fields.Char(string="Código postal")
     date_availability = fields.Date(string="Fecha disponibilidad", copy=False, default=_default_date_availability)
-    expected_price = fields.Float(string="Precio esperado")
+    expected_price = fields.Float(string="Precio esperado", onchange="_on_change_expected_price")
     selling_price = fields.Float(string="Precio de venta", copy=False)
     bedrooms = fields.Integer(string="Habitaciones", default=2)
     living_area = fields.Integer(string="Superficie cubierta")
@@ -81,3 +82,14 @@ class EstateProperty(models.Model):
             self.garden_area = 10
         else:
             self.garden_area = 0
+            
+    @api.onchange("expected_price")
+    def _on_change_expected_price(self):
+        if self.expected_price and self.expected_price != 0 and self.expected_price < 10000:
+            return {
+                "warning": {
+                    "title": "Aviso de precio bajo",
+                    "message": "El precio ingresado es menor a 10.000. Por favor, verifique si no fue un error de tipeo.",
+                    "type": "notification",
+                }
+            }
