@@ -1,156 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
+        <!-- Vista de búsqueda -->
+        <record id="view_estate_property_search" model="ir.ui.view">
+            <field name="name">estate.property.search</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Propiedades">
+                    <field name="name"/>
+                    <field name="postcode"/>
+                    <field name="expected_price"/>
+                    <field name="bedrooms"/>
+                    <field name="living_area"/>
+                    <field name="facades"/>
+                    <field name="state"/>
 
-    <!-- Vista de búsqueda -->
-    <record id="view_estate_property_search" model="ir.ui.view">
-        <field name="name">estate.property.search</field>
-        <field name="model">estate.property</field>
-        <field name="arch" type="xml">
-            <search string="Buscar Propiedades">
-                <field name="name"/>
-                <field name="postcode"/>
-                <field name="expected_price"/>
-                <field name="bedrooms"/>
-                <field name="living_area"/>
-                <field name="facades"/>
-                <field name="state"/>
+                    <!-- Declaración explícita de campos técnicos para que Odoo permita agrupar por ellos -->
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
 
-                <!-- Declaración explícita de campos técnicos para que Odoo permita agrupar por ellos -->
-                <field name="create_uid"/>
-                <field name="create_date"/>
+                    <!-- Filtros predefinidos -->
+                    <filter string="Mis propiedades" name="my_properties" domain="[('create_uid', '=', uid)]" />
+                    
+                    <separator/>
 
-                <!-- Filtros predefinidos -->
-                <filter string="Mis propiedades" name="my_properties" domain="[('create_uid', '=', uid)]" />
-                
-                <separator/>
-
-                <!-- Agrupaciones -->
-                <group>
-                    <!-- Agrupar por usuario creador -->
-                    <filter string="Creado por" name="group_by_user" context="{'group_by': 'create_uid'}"/>
-
-                    <!-- Agrupar por mes de creación -->
-                    <filter string="Mes de creación" name="group_by_month" context="{'group_by': 'create_date'}"/>
-
-                    <!-- Agrupar por código postal -->
-                    <filter string="Código postal" name="group_by_postcode" context="{'group_by': 'postcode'}"/>
-
-                    <!-- Agrupar por propiedades disponibles -->
-                    <filter string="Estado" name="filter_available_properties" domain="[('state','in',['new','offer received'])]" />
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- Vista de lista-->
-    <record id="estate_property_list" model="ir.ui.view">
-        <field name="name">estate.property.list</field>
-        <field name="model">estate.property</field>
-        <field name="arch" type="xml">
-            <list string="Lista de propiedades">
-                <field name="name"/>
-                <field name="tag_ids" widget="many2many_tags" />
-                <field name="postcode"/>
-                <field name="expected_price"/>
-                <field name="bedrooms"/>
-                <field name="living_area"/>
-                <field name="selling_price"/>
-                <field name="date_availability"/>
-                <field name="state"/>
-            </list>
-        </field>
-    </record>
-
-    <!-- Vista de formulario -->
-    <record id="estate_property_form" model="ir.ui.view">
-        <field name="name">estate.property.form</field>
-        <field name="model">estate.property</field>
-        <field name="arch" type="xml">
-            <form string="Formulario para propiedades">
-                <header>
-                    <button 
-                        name="action_mark_as_sold"
-                        type="object"
-                        string="Marcar como vendida"
-                        class="btn-primary"
-                        invisible="state in ['sold', 'canceled']"
-                    />
-                    <button 
-                        name="action_cancel"
-                        type="object"
-                        string="Cancelar"
-                        class="btn-secondary"
-                        invisible="state in ['sold', 'canceled']"
-                    />
-                    <field name="state" widget="statusbar"></field>
-                </header>
-
-                <sheet>
+                    <!-- Agrupaciones -->
                     <group>
-                        <h1>
-                            <field name="name" placeholder="Nombre propiedad" />
-                        </h1>
+                        <!-- Agrupar por usuario creador -->
+                        <filter string="Creado por" name="group_by_user" context="{'group_by': 'create_uid'}"/>
+
+                        <!-- Agrupar por mes de creación -->
+                        <filter string="Mes de creación" name="group_by_month" context="{'group_by': 'create_date'}"/>
+
+                        <!-- Agrupar por código postal -->
+                        <filter string="Código postal" name="group_by_postcode" context="{'group_by': 'postcode'}"/>
+
+                        <!-- Agrupar por propiedades disponibles -->
+                        <filter string="Estado" name="filter_available_properties" domain="[('state','in',['new','offer received'])]" />
                     </group>
-                    <group>
-                        <h3>
-                            <field name="tag_ids" placeholder="Etiquetas de propiedad" widget="many2many_tags" />
-                        </h3>
-                    </group>
-                    <group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vista de lista-->
+        <record id="estate_property_list" model="ir.ui.view">
+            <field name="name">estate.property.list</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <list string="Lista de propiedades">
+                    <field name="name"/>
+                    <field name="tag_ids" widget="many2many_tags" />
+                    <field name="postcode"/>
+                    <field name="expected_price"/>
+                    <field name="bedrooms"/>
+                    <field name="living_area"/>
+                    <field name="selling_price"/>
+                    <field name="date_availability"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista de formulario -->
+        <record id="estate_property_form" model="ir.ui.view">
+            <field name="name">estate.property.form</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <form string="Formulario para propiedades">
+                    <header>
+                        <button 
+                            name="action_mark_as_sold"
+                            type="object"
+                            string="Marcar como vendida"
+                            class="btn-primary"
+                            invisible="state in ['sold', 'canceled']"
+                        />
+                        <button 
+                            name="action_cancel"
+                            type="object"
+                            string="Cancelar"
+                            class="btn-secondary"
+                            invisible="state in ['sold', 'canceled']"
+                        />
+                        <field name="state" widget="statusbar"></field>
+                    </header>
+
+                    <sheet>
+                        <widget 
+                            name="web_ribbon" 
+                            title="Vendida" 
+                            bg_color="text-bg-success"
+                            invisible="state != 'sold'"
+                        />
                         <group>
-                            <field name="property_type_id" placeholder="Tipo de propiedad" />
-                            <field name="postcode" />
-                            <field name="date_availability" />
+                            <h1>
+                                <field name="name" placeholder="Nombre propiedad" />
+                            </h1>
                         </group>
                         <group>
-                            <field name="expected_price" />
-                            <field name="selling_price" />
-                            <field name="best_offer" />
+                            <h3>
+                                <field name="tag_ids" placeholder="Etiquetas de propiedad" widget="many2many_tags" />
+                            </h3>
                         </group>
-                    </group>
-
-                    <notebook>
-                        <page string="Descripción">
+                        <group>
                             <group>
-                                <group>
-                                    <field name="description" />
-                                    <field name="bedrooms" />
-                                    <field name="living_area" />
-                                    <field name="facades" />
-                                    <field name="garage" />
-                                </group>
-                                <group>
-                                    <field name="garden" />
-                                    <field name="garden_area" />
-                                    <field name="garden_orientation" />
-                                    <field name="total_area" />
-                                </group>
+                                <field name="property_type_id" placeholder="Tipo de propiedad" />
+                                <field name="postcode" />
+                                <field name="date_availability" />
                             </group>
-                        </page>
-
-                        <page string="Más info">
                             <group>
-                                <field name="buyer_id" />
-                                <field name="salesman_id" />
+                                <field name="expected_price" />
+                                <field name="selling_price" />
+                                <field name="best_offer" />
                             </group>
-                        </page>
+                        </group>
 
-                        <page string="Ofertas">
-                            <field name="offer_ids" />
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
+                        <notebook>
+                            <page string="Descripción">
+                                <group>
+                                    <group>
+                                        <field name="description" />
+                                        <field name="bedrooms" />
+                                        <field name="living_area" />
+                                        <field name="facades" />
+                                        <field name="garage" />
+                                    </group>
+                                    <group>
+                                        <field name="garden" />
+                                        <field name="garden_area" />
+                                        <field name="garden_orientation" />
+                                        <field name="total_area" />
+                                    </group>
+                                </group>
+                            </page>
 
-    <!-- Acción de ventana -->
-    <record id="estate_property_action" model="ir.actions.act_window">
-        <field name="name">Propiedades</field>
-        <field name="res_model">estate.property</field>
-        <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="view_estate_property_search"/>
-        <field name="view_id" ref="estate_property_list"/>
-    </record>
+                            <page string="Más info">
+                                <group>
+                                    <field name="buyer_id" />
+                                    <field name="salesman_id" />
+                                </group>
+                            </page>
 
+                            <page string="Ofertas">
+                                <field name="offer_ids" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción de ventana -->
+        <record id="estate_property_action" model="ir.actions.act_window">
+            <field name="name">Propiedades</field>
+            <field name="res_model">estate.property</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_estate_property_search"/>
+            <field name="view_id" ref="estate_property_list"/>
+        </record>
+    </data>
 </odoo>
