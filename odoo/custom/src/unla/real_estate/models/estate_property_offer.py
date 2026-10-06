@@ -12,6 +12,9 @@ class EstatePropertyOffer(models.Model):
     status = fields.Selection(string="Estado", selection=[("accepted","Aceptada"),("refused","Rechazada")])
     validity = fields.Integer(string="Validez (días)", default=7)
     
+    # Constraints
+    _unique_partner_id_property_id = models.Constraint("unique(partner_id, property_id)", "Una misma persona no puede hacer más de una oferta sobre la misma propiedad.")
+    
     # Relaciones:
     partner_id = fields.Many2one(
         comodel_name="res.partner",
