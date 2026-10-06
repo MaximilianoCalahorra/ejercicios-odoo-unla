@@ -55,6 +55,12 @@ class EstateProperty(models.Model):
         string="Ofertas"
     )
     
+    offer_partner_ids = fields.One2many(
+        comodel_name="res.partner",
+        string="Compradores interesados",
+        compute="_compute_offer_partner_ids"
+    )
+    
     # Campos computados:
     total_area = fields.Integer(string="Superficie total", compute="_compute_total_area", store=True)
     best_offer = fields.Float(string="Mejor oferta", compute="_compute_best_offer", store=True)
@@ -74,6 +80,11 @@ class EstateProperty(models.Model):
                 rec.best_offer = max(offers)
             else:
                 rec.best_offer = 0
+    
+    @api.depends("offer_ids.partner_id")
+    def _compute_offer_partner_ids(self):
+        for rec in self:
+            rec.offer_partner_ids = rec.offer_ids.mapped("partner_id")
     
     # Funciones onchange:
     @api.onchange("garden")
