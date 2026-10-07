@@ -174,3 +174,10 @@ class EstateProperty(models.Model):
         self.tag_ids = [Command.link(tag.id)]  
         
         return True
+    
+    # Funciones ondelete:
+    @api.ondelete(at_uninstall=False)
+    def _unlink_if_new_or_canceled(self):
+        # Solo se permite borrar propiedades en estado "new" o "canceled":
+        if any(p.state not in ["new", "canceled"] for p in self):
+            raise UserError("Solo se pueden eliminar las propiedades cuando el estado es Nuevo o Cancelado")
