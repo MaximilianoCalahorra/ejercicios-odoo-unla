@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, Command
 from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
 import random
@@ -143,4 +143,34 @@ class EstateProperty(models.Model):
                 "property_id": rec.id,
                 "validity": 7
             })
+        return True
+
+    def action_remove_tags(self):
+        for rec in self:
+            # Desvincular cada etiqueta de la propiedad:
+            rec.tag_ids = [Command.unlink(tag.id) for tag in rec.tag_ids]
+        
+        return True
+
+    def action_all_tags(self):
+        # Obtener todas las etiquetas:
+        tags = self.env["estate.property.tag"].search([])
+        
+        for rec in self:
+            # Vincular cada etiqueta a la propiedad:
+            rec.tag_ids = [Command.link(tag.id) for tag in tags]
+        
+        return True
+    
+    def action_brand_new(self):
+        # Buscar la etiqueta "A estrenar":
+        tag = self.env["estate.property.tag"].search([("name", "=", "A estrenar")])
+        
+        # Si no existe la crea:
+        if not tag:
+            tag = self.env["estate.property.tag"].create({"name": "A estrenar"})
+        
+        # Exista previamente o haya sido creado, la vincula a la propiedad:
+        self.tag_ids = [Command.link(tag.id)]  
+        
         return True
