@@ -80,3 +80,22 @@ class EstatePropertyOffer(models.Model):
     def _action_reject_other_offers(self):
         # 'self' aquí serán todas las ofertas que queremos rechazar
         self.write({"status": "refused"})
+    
+    # Redefiniciones:
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            property_id = self.env["estate.property"].browse(vals["property_id"])
+            offer_ids = property_id.offer_ids
+            
+            if (property_id.state == "new" or property_id.state == "offer_received"):
+                if offer_ids:
+                    max_price = max(offer_ids.mapped("price") or [0])
+                    
+                    if vals["price"] < max_price:
+                        raise UserError("No se puede crear una oferta de menor valor a la mejor oferta existente.")
+                else:
+                    property_id.write({"state":"offer_received"})
+            else:
+                raise UserError("Esta propiedad tiene que ser nueva o haber recibido alguna oferta.")
+        return super().create(vals_list)
