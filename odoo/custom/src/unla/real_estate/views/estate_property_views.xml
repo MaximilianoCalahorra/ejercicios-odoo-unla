@@ -82,6 +82,12 @@
                             class="btn-secondary"
                             invisible="state in ['sold', 'canceled']"
                         />
+                        <button 
+                            name="action_random_offer"
+                            type="object"
+                            string="Generar oferta automática"
+                            class="btn-secondary"
+                        />
                         <field name="state" widget="statusbar"></field>
                     </header>
 

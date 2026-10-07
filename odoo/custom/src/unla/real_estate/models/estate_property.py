@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
+import random
 
 def _default_date_availability(self):
     return fields.Date.today() + relativedelta(months=3)
@@ -118,4 +119,28 @@ class EstateProperty(models.Model):
             if rec.state == "sold":
                 raise UserError("No se puede cancelar una propiedad vendida.")
             rec.state = "canceled"
+        return True
+
+    def action_random_offer(self):
+        for rec in self:
+            # Obtener todos los partners activos:
+            all_partners = self.env["res.partner"].search([("active", "=", True)])
+            
+            # Filtrar los que aún no hicieron una oferta para esta propiedad:
+            elegible_partners = all_partners.filtered(lambda p: p not in rec.offer_ids.mapped("partner_id"))
+            
+            # Elegir uno de forma aleatoria:
+            partner = random.choice(elegible_partners)
+            
+            # Calcular el importe de la oferta de manera aleatoria entre un 30% más y un 30% menos del precio esperado:
+            price_random = rec.expected_price * (1 + random.uniform(-0.3, 0.3))
+            
+            # Crear la oferta:
+            self.env["estate.property.offer"].create({
+                "name": "Oferta aleatoria",
+                "price": round(price_random, 2),
+                "partner_id": partner.id,
+                "property_id": rec.id,
+                "validity": 7
+            })
         return True
